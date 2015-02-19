@@ -5,16 +5,17 @@
 ## Login   <durand_u@epitech.net>
 ## 
 ## Started on  Thu Feb 19 10:59:30 2015 Rémi DURAND
-## Last update Thu Feb 19 11:00:10 2015 Rémi DURAND
+## Last update Thu Feb 19 15:04:14 2015 Rémi DURAND
 ##
 
-SRC	=	philo.c
+SRC	=	philo.c		\
+		init.c
 
 CC	=	gcc
 
 RM	=	rm -f
 
-OBJ	=	$(SRC:.cpp=.o)
+OBJ	=	$(SRC:.c=.o)
 
 NAME	=	philo
 
