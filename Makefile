@@ -5,11 +5,12 @@
 ## Login   <durand_u@epitech.net>
 ## 
 ## Started on  Thu Feb 19 10:59:30 2015 Rémi DURAND
-## Last update Thu Feb 19 15:04:14 2015 Rémi DURAND
+## Last update Mon Feb 23 13:01:51 2015 Rémi DURAND
 ##
 
 SRC	=	philo.c		\
-		init.c
+		init.c		\
+		algo.c
 
 CC	=	gcc
 
