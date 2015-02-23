@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Mon Feb 23 14:06:40 2015 Rémi DURAND
+** Last update Mon Feb 23 14:32:20 2015 Ambroise Coutarel
 */
 
 #include <time.h>
@@ -60,9 +60,40 @@ void		try_eat(t_phil *phil)
     }
 }
 
+void		think(t_phil *cur_phil, int id)
+{
+  pthread_mutex_lock(&g_mut_tab[id]);
+  printf("Philosopĥer n°%d, %s, thinks about dicks and stuff.\n", 
+	 id, cur_phil->name);
+  wait_n_time(THINK_TIME);
+  printf("Philosopĥer n°%d, %s, is done thinking about dongs.\n", 
+	 id, cur_phil->name);
+  pthread_mutex_unlock(&g_mut_tab[id]);
+}
+
 void		try_think(t_phil *cur_phil)
 {
-  (void)cur_phil;
+ int		id;
+
+  id = cur_phil->id_phil;
+  if (g_table[id] == 1)
+    think(cur_phil, id);
+  else if (pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0 &&
+	   g_table[NEXT(id)] == 1)
+    {
+      pthread_mutex_unlock(&g_mut_tab[NEXT(id)]);
+      g_table[NEXT(id)] -= 1;
+      think(cur_phil, id);
+      g_table[NEXT(id)] += 1;
+    }
+  else if (pthread_mutex_trylock(&g_mut_tab[PREV(id)]) == 0 &&
+	   g_table[PREV(id)] == 1)
+    {
+      pthread_mutex_unlock(&g_mut_tab[PREV(id)]);
+      g_table[PREV(id)] -= 1;
+      think(cur_phil, id);
+      g_table[PREV(id)] += 1;
+    }
 }
 
 void		rest(t_phil *cur_phil)
@@ -75,4 +106,5 @@ void		algo(t_phil *cur_phil)
   try_eat(cur_phil);
   if (cur_phil->canRest)
     rest(cur_phil);
+  try_think(cur_phil);
 }
