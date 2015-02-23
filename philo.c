@@ -5,9 +5,10 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Thu Feb 19 15:50:33 2015 Rémi DURAND
+** Last update Mon Feb 23 10:34:22 2015 Rémi DURAND
 */
 
+#include <time.h>
 #include <stdio.h>
 #include <pthread.h>
 #include "philo.h"
@@ -31,8 +32,11 @@ int		main()
 {
   t_phil	phils[7];
   pthread_t	th_tab[7];
+  int	        execTime;
 
   init_all(phils, th_tab);
-  pthread_join(th_tab[6], NULL);
+  execTime = time(0) + 30;
+  while (time(0) < execTime)
+    ;
   return (0);
 }
