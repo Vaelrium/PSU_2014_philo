@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Mon Feb 23 14:06:40 2015 Rémi DURAND
+** Last update Mon Feb 23 14:26:53 2015 Rémi DURAND
 */
 
 #include <time.h>
