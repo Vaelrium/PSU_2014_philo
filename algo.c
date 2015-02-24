@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Mon Feb 23 15:01:23 2015 Rémi DURAND
+** Last update Tue Feb 24 10:13:40 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -13,7 +13,6 @@
 #include <pthread.h>
 #include "philo.h"
 
-char			g_table[7] = {1, 1, 1, 1, 1, 1, 1};
 pthread_mutex_t		g_mut_tab[7];
 
 void		wait_n_time(int nbSec)
@@ -23,16 +22,11 @@ void		wait_n_time(int nbSec)
 
 void		eat(int cur_id, int get_id)
 {
-  pthread_mutex_unlock(&g_mut_tab[get_id]);
-  g_table[get_id] -= 1;
-  g_table[cur_id] += 1;
-  pthread_mutex_lock(&g_mut_tab[cur_id]);
   printf("Phil n° %d begin to eat\n", cur_id);
   wait_n_time(EAT_TIME);
   printf("Phil n° %d finish to eat\n", cur_id);
   pthread_mutex_unlock(&g_mut_tab[cur_id]);
-  g_table[get_id] += 1;
-  g_table[cur_id] -= 1;
+  pthread_mutex_unlock(&g_mut_tab[get_id]);
 }
 
 int		try_eat(t_phil *phil)
@@ -40,25 +34,22 @@ int		try_eat(t_phil *phil)
   int		id;
 
   id = phil->id_phil;
-  if (g_table[id] == 1 && pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0 &&
-      g_table[NEXT(id)] == 1)
+  if (pthread_mutex_trylock(&g_mut_tab[id]) == 0 &&
+      pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0)
     {
       phil->canRest = 1;
       return (NEXT(id));
     }
-  else if (g_table[id] == 1 && pthread_mutex_trylock(&g_mut_tab[PREV(id)]) == 0 &&
-      g_table[PREV(id)] == 1)
-    {
-      phil->canRest = 1;
-      return (PREV(id));
-    }
   else
-    return (-1);
+    {
+      pthread_mutex_unlock(&g_mut_tab[id]);
+      pthread_mutex_unlock(&g_mut_tab[NEXT(id)]);
+      return (-1);
+    }
 }
 
 void		think(t_phil *cur_phil, int id)
 {
-  pthread_mutex_lock(&g_mut_tab[id]);
   printf("Philosopher n°%d, %s, thinks about dicks and stuff.\n", 
 	 id, cur_phil->name);
   wait_n_time(THINK_TIME);
@@ -72,31 +63,17 @@ void		try_think(t_phil *cur_phil)
   int		id;
   
   id = cur_phil->id_phil;
-  if (g_table[id] == 1)
+  if (pthread_mutex_trylock(&g_mut_tab[id]) == 0)
     think(cur_phil, id);
-  else if (pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0 &&
-	   g_table[NEXT(id)] == 1)
-    {
-      pthread_mutex_unlock(&g_mut_tab[NEXT(id)]);
-      g_table[NEXT(id)] -= 1;
-      think(cur_phil, id);
-      g_table[NEXT(id)] += 1;
-    }
-  else if (pthread_mutex_trylock(&g_mut_tab[PREV(id)]) == 0 &&
-	   g_table[PREV(id)] == 1)
-    {
-      pthread_mutex_unlock(&g_mut_tab[PREV(id)]);
-      g_table[PREV(id)] -= 1;
-      think(cur_phil, id);
-      g_table[PREV(id)] += 1;
-    }
+  else if (pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0)
+    think(cur_phil, NEXT(id));
 }
 
 void		rest(t_phil *cur_phil)
 {
   printf("%s burps and rest\n", cur_phil->name);
 }
-
+/*
 void		algo(t_phil *cur_phil)
 {
   int		ret;
@@ -107,3 +84,4 @@ void		algo(t_phil *cur_phil)
     rest(cur_phil);
   try_think(cur_phil);
 }
+*/

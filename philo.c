@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Mon Feb 23 15:00:23 2015 Rémi DURAND
+** Last update Tue Feb 24 10:18:11 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -13,21 +13,25 @@
 #include <pthread.h>
 #include "philo.h"
 
-int			g_endExec = 0;
+int		g_endExec = 0;
 
 void		*phil_beg(void *arg)
 {
   t_phil	cur_phil;
+  int		ret;
 
   cur_phil = *((t_phil *)arg);
   printf("Philosopher n° %d, %s gets a seat\n",
 	 cur_phil.id_phil, cur_phil.name);
   while (!g_endExec)
     {
-      algo(&cur_phil);
+      if ((ret = try_eat(&cur_phil)) != (-1))
+	eat(cur_phil.id_phil, ret);
+      if (cur_phil.canRest && !g_endExec)
+	rest(&cur_phil);
+      try_think(&cur_phil);
     }
-  printf("Philosopher n° %d, %s gets back to his Cogitum\n",
-	 cur_phil.id_phil, cur_phil.name);
+  printf("~ %s fucks off\n", cur_phil.name);
   pthread_exit(NULL);
   return (NULL);
 }
