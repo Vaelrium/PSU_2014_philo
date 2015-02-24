@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Tue Feb 24 11:29:34 2015 Rémi DURAND
+** Last update Tue Feb 24 12:45:17 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -44,7 +44,7 @@ void		wait_end(pthread_t th_tab[])
   v = 0;
   while (v != 7)
     pthread_join(th_tab[v++], NULL);
-  printf("Table is empty");
+  printf("The table is now empty\n");
 }
 
 int		main()
