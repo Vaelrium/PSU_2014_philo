@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 14:52:35 2015 Rémi DURAND
-** Last update Tue Feb 24 14:25:08 2015 Rémi DURAND
+** Last update Tue Feb 24 15:02:26 2015 Rémi DURAND
 */
 
 #include <stdlib.h>
@@ -16,7 +16,7 @@
 #include "philo.h"
 
 pthread_mutex_t	g_mut_tab[7];
-int    	       	g_waitingList[8];
+int		g_waitingList[8];
 
 void		init_list()
 {

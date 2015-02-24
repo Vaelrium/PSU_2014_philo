@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Tue Feb 24 12:51:36 2015 Ambroise Coutarel
-** Last update Tue Feb 24 14:09:10 2015 Rémi DURAND
+** Last update Tue Feb 24 15:04:32 2015 Rémi DURAND
 */
 
 #include <pthread.h>
@@ -51,5 +51,5 @@ void	removeFromList()
     }
   if (i >= 7)
     return ;
-  g_waitingList[i] = -1; 
+  g_waitingList[i] = -1;
 }

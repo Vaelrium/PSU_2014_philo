@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Tue Feb 24 14:55:57 2015 Rémi DURAND
+** Last update Tue Feb 24 15:03:46 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -31,7 +31,7 @@ void		*phil_beg(void *arg)
       if (cur_phil.canRest && !g_endExec)
 	rest(&cur_phil);
       else if (!g_endExec && ret == (-1))
-      try_think(&cur_phil);
+	try_think(&cur_phil);
     }
   printf("~ %s fucks off\n", cur_phil.name);
   pthread_exit(NULL);

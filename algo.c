@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Tue Feb 24 14:54:45 2015 Rémi DURAND
+** Last update Tue Feb 24 15:01:14 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -57,10 +57,10 @@ void		think(t_phil *cur_phil, int id)
   if (checkList(cur_phil->id_phil) == 0)
     addToList(cur_phil->id_phil);
   cur_phil->canRest = 0;
-  printf("Philosopher n°%d, %s, thinks about dicks and stuff.\n", 
+  printf("Philosopher n°%d, %s, thinks about dicks and stuff.\n",
 	 id, cur_phil->name);
   sleep(THINK_TIME);
-  printf("Philosopher n°%d, %s, is done thinking about dongs.\n", 
+  printf("Philosopher n°%d, %s, is done thinking about dongs.\n",
 	 id, cur_phil->name);
   pthread_mutex_unlock(&g_mut_tab[id]);
 }
@@ -68,7 +68,7 @@ void		think(t_phil *cur_phil, int id)
 void		try_think(t_phil *cur_phil)
 {
   int		id;
-  
+
   id = cur_phil->id_phil;
   if (pthread_mutex_trylock(&g_mut_tab[id]) == 0)
     think(cur_phil, id);
