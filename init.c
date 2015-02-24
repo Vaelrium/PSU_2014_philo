@@ -5,15 +5,27 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 14:52:35 2015 Rémi DURAND
-** Last update Mon Feb 23 13:58:26 2015 Rémi DURAND
+** Last update Tue Feb 24 14:25:08 2015 Rémi DURAND
 */
 
+#include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #include <stdio.h>
 #include <pthread.h>
 #include "philo.h"
 
 pthread_mutex_t	g_mut_tab[7];
+int    	       	g_waitingList[8];
+
+void		init_list()
+{
+  int		v;
+
+  v = 0;
+  while (v != 8)
+    g_waitingList[v++] = (-1);
+}
 
 void		init_phil(t_phil phils[])
 {
@@ -57,10 +69,9 @@ int		init_all(t_phil phils[], pthread_t th_tab[])
   while (v == 7)
     {
       pthread_mutex_init(&g_mut_tab[v], NULL);
-      if (v != 0)
-	pthread_mutex_lock(&g_mut_tab[v]);
       ++v;
     }
   init_phil(phils);
+  init_list();
   return (init_thread(th_tab, phils));
 }

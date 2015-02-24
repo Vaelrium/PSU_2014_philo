@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Tue Feb 24 11:17:18 2015 Rémi DURAND
+** Last update Tue Feb 24 14:54:45 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -14,6 +14,7 @@
 #include "philo.h"
 
 pthread_mutex_t		g_mut_tab[7];
+int    			g_waitingList[8];
 
 void		eat(int cur_id, int get_id)
 {
@@ -27,26 +28,34 @@ void		eat(int cur_id, int get_id)
 int		try_eat(t_phil *phil)
 {
   int		id;
-  int		ret;
+  int		ret1;
+  int		ret2;
 
-  ret = -1;
+  ret1 = -1;
+  ret2 = -1;
   id = phil->id_phil;
-  if ((ret = pthread_mutex_trylock(&g_mut_tab[id])) == 0 &&
-      pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0)
+  if ((ret1 = pthread_mutex_trylock(&g_mut_tab[id])) == 0 &&
+      (ret2 = pthread_mutex_trylock(&g_mut_tab[NEXT(id)])) == 0 &&
+      id == g_waitingList[0])
       {
+	removeFromList();
 	phil->canRest = 1;
 	return (NEXT(id));
       }
     else
       {
-	if (ret == 0)
+	if (ret1 == 0)
 	  pthread_mutex_unlock(&g_mut_tab[id]);
+	if (ret2 == 0)
+	  pthread_mutex_unlock(&g_mut_tab[NEXT(id)]);
 	return (-1);
       }
 }
 
 void		think(t_phil *cur_phil, int id)
 {
+  if (checkList(cur_phil->id_phil) == 0)
+    addToList(cur_phil->id_phil);
   cur_phil->canRest = 0;
   printf("Philosopher n°%d, %s, thinks about dicks and stuff.\n", 
 	 id, cur_phil->name);
@@ -71,4 +80,5 @@ void		rest(t_phil *cur_phil)
 {
   printf("%s burps and rest\n", cur_phil->name);
   cur_phil->canRest = 0;
+  sleep(REST_TIME);
 }

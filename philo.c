@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Tue Feb 24 12:45:17 2015 Rémi DURAND
+** Last update Tue Feb 24 14:55:57 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -23,14 +23,15 @@ void		*phil_beg(void *arg)
   cur_phil = *((t_phil *)arg);
   printf("Philosopher n° %d, %s gets a seat\n",
 	 cur_phil.id_phil, cur_phil.name);
+  addToList(cur_phil.id_phil);
   while (!g_endExec)
     {
       if ((ret = try_eat(&cur_phil)) != (-1))
 	eat(cur_phil.id_phil, ret);
       if (cur_phil.canRest && !g_endExec)
 	rest(&cur_phil);
-      else if (!g_endExec)
-	try_think(&cur_phil);
+      else if (!g_endExec && ret == (-1))
+      try_think(&cur_phil);
     }
   printf("~ %s fucks off\n", cur_phil.name);
   pthread_exit(NULL);

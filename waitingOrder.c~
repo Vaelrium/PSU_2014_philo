@@ -1,0 +1,25 @@
+/*
+** waitingOrder.c for philosphezzjz in /home/ganesha/projets/philos/PSU_2014_philo
+**
+** Made by Ambroise Coutarel
+** Login   <ganesha@epitech.net>
+**
+** Started on  Tue Feb 24 12:51:36 2015 Ambroise Coutarel
+** Last update Tue Feb 24 12:53:59 2015 Ambroise Coutarel
+*/
+
+#include "philo.h"
+
+int	checkList(int id)
+{
+  int	i;
+
+  i = 0;
+  while (i != 6 && g_waitingList[i] != (-1))
+    {
+      if (id == g_waitingList[i])
+	return (-1);
+      i++;
+    }
+  return (0);
+}

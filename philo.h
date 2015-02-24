@@ -5,15 +5,16 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 11:09:26 2015 Rémi DURAND
-** Last update Tue Feb 24 11:25:11 2015 Rémi DURAND
+** Last update Tue Feb 24 14:55:02 2015 Rémi DURAND
 */
 
 #ifndef _PHI_H_
 # define _PHI_H_
 
-# define EXEC_TIME 10
+# define EXEC_TIME 21
 # define EAT_TIME 3
-# define THINK_TIME 2
+# define THINK_TIME 4
+# define REST_TIME 5
 # define NEXT(x) (x == 6 ? 0 : (x + 1))
 
 typedef struct		s_phil
@@ -31,8 +32,11 @@ void			try_think(t_phil *cur_phil);
 void			think(t_phil *cur_phil, int id);
 int			try_eat(t_phil *phil);
 void			eat(int cur_id, int get_id);
-
+int			checkList(int id);
+void			addToList(int id);
+void			removeFromList();
 
 extern pthread_mutex_t	g_mut_tab[7];
+extern int		g_waitingList[8];
 
 #endif /* !_PHI_H_ */
