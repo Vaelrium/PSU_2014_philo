@@ -5,15 +5,31 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 14:52:35 2015 Rémi DURAND
-** Last update Mon Feb 23 13:58:26 2015 Rémi DURAND
+** Last update Tue Feb 24 13:21:46 2015 Ambroise Coutarel
 */
 
+#include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #include <stdio.h>
 #include <pthread.h>
 #include "philo.h"
 
 pthread_mutex_t	g_mut_tab[7];
+int    	       	g_waitingList[7];
+
+
+void		init_list()
+{
+  int		v;
+
+  v = 1;
+  srandom(time(NULL));
+  g_waitingList[0] = random() % 6;
+  printf("first eater = %i\n", g_waitingList[0]);
+  while (v != 7)
+    g_waitingList[v++] = (-1);
+}
 
 void		init_phil(t_phil phils[])
 {
@@ -62,5 +78,6 @@ int		init_all(t_phil phils[], pthread_t th_tab[])
       ++v;
     }
   init_phil(phils);
+  init_list();
   return (init_thread(th_tab, phils));
 }

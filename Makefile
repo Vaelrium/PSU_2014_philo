@@ -5,12 +5,13 @@
 ## Login   <durand_u@epitech.net>
 ## 
 ## Started on  Thu Feb 19 10:59:30 2015 Rémi DURAND
-## Last update Mon Feb 23 13:01:51 2015 Rémi DURAND
+## Last update Tue Feb 24 13:07:11 2015 Ambroise Coutarel
 ##
 
 SRC	=	philo.c		\
 		init.c		\
-		algo.c
+		algo.c		\
+		waitingOrder.c
 
 CC	=	gcc
 

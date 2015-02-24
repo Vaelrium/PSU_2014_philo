@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Tue Feb 24 11:17:18 2015 Rémi DURAND
+** Last update Tue Feb 24 13:13:49 2015 Ambroise Coutarel
 */
 
 #include <unistd.h>
@@ -14,6 +14,7 @@
 #include "philo.h"
 
 pthread_mutex_t		g_mut_tab[7];
+int    			g_waitingList[7];
 
 void		eat(int cur_id, int get_id)
 {
@@ -32,8 +33,10 @@ int		try_eat(t_phil *phil)
   ret = -1;
   id = phil->id_phil;
   if ((ret = pthread_mutex_trylock(&g_mut_tab[id])) == 0 &&
-      pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0)
+      pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0 &&
+      id == g_waitingList[0])
       {
+	removeFromList();
 	phil->canRest = 1;
 	return (NEXT(id));
       }
@@ -47,6 +50,8 @@ int		try_eat(t_phil *phil)
 
 void		think(t_phil *cur_phil, int id)
 {
+  if (checkList(cur_phil->id_phil) == 0)
+    addToList(cur_phil->id_phil);
   cur_phil->canRest = 0;
   printf("Philosopher n°%d, %s, thinks about dicks and stuff.\n", 
 	 id, cur_phil->name);

@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Tue Feb 24 11:29:34 2015 Rémi DURAND
+** Last update Tue Feb 24 13:26:50 2015 Ambroise Coutarel
 */
 
 #include <unistd.h>
@@ -44,11 +44,12 @@ void		wait_end(pthread_t th_tab[])
   v = 0;
   while (v != 7)
     pthread_join(th_tab[v++], NULL);
-  printf("Table is empty");
+  printf("Table is empty\n");
 }
 
 int		main()
 {
+  int		i = 0;
   t_phil	phils[7];
   pthread_t	th_tab[7];
 
@@ -56,5 +57,10 @@ int		main()
   sleep(EXEC_TIME);
   g_endExec = 1;
   wait_end(th_tab);
+  while (i != 7)
+    {
+      printf("n %i on waiting list : %i\n", (i+1), g_waitingList[i]);
+      i++;
+    }
   return (0);
 }
