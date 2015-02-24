@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 10:57:04 2015 Rémi DURAND
-** Last update Tue Feb 24 10:18:11 2015 Rémi DURAND
+** Last update Tue Feb 24 11:29:34 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -29,7 +29,8 @@ void		*phil_beg(void *arg)
 	eat(cur_phil.id_phil, ret);
       if (cur_phil.canRest && !g_endExec)
 	rest(&cur_phil);
-      try_think(&cur_phil);
+      else if (!g_endExec)
+	try_think(&cur_phil);
     }
   printf("~ %s fucks off\n", cur_phil.name);
   pthread_exit(NULL);
@@ -43,6 +44,7 @@ void		wait_end(pthread_t th_tab[])
   v = 0;
   while (v != 7)
     pthread_join(th_tab[v++], NULL);
+  printf("Table is empty");
 }
 
 int		main()

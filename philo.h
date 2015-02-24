@@ -5,13 +5,13 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 11:09:26 2015 Rémi DURAND
-** Last update Tue Feb 24 10:18:44 2015 Rémi DURAND
+** Last update Tue Feb 24 11:25:11 2015 Rémi DURAND
 */
 
 #ifndef _PHI_H_
 # define _PHI_H_
 
-# define EXEC_TIME 60
+# define EXEC_TIME 10
 # define EAT_TIME 3
 # define THINK_TIME 2
 # define NEXT(x) (x == 6 ? 0 : (x + 1))
