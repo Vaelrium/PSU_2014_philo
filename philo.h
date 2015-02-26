@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Thu Feb 19 11:09:26 2015 Rémi DURAND
-** Last update Tue Feb 24 14:55:02 2015 Rémi DURAND
+** Last update Thu Feb 26 15:13:34 2015 Rémi DURAND
 */
 
 #ifndef _PHI_H_
@@ -16,6 +16,7 @@
 # define THINK_TIME 4
 # define REST_TIME 5
 # define NEXT(x) (x == 6 ? 0 : (x + 1))
+# define PREV(x) (x == 0 ? 6 : (x - 1))
 
 typedef struct		s_phil
 {

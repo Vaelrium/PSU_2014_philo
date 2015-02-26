@@ -5,7 +5,7 @@
 ** Login   <durand_u@epitech.net>
 ** 
 ** Started on  Mon Feb 23 13:00:51 2015 Rémi DURAND
-** Last update Tue Feb 24 15:01:14 2015 Rémi DURAND
+** Last update Thu Feb 26 15:10:48 2015 Rémi DURAND
 */
 
 #include <unistd.h>
@@ -28,15 +28,13 @@ void		eat(int cur_id, int get_id)
 int		try_eat(t_phil *phil)
 {
   int		id;
-  int		ret1;
-  int		ret2;
+  int		ret;
 
-  ret1 = -1;
-  ret2 = -1;
+  ret = -1;
   id = phil->id_phil;
-  if ((ret1 = pthread_mutex_trylock(&g_mut_tab[id])) == 0 &&
-      (ret2 = pthread_mutex_trylock(&g_mut_tab[NEXT(id)])) == 0 &&
-      id == g_waitingList[0])
+  if (id == g_waitingList[0] &&
+      (ret = pthread_mutex_trylock(&g_mut_tab[id])) == 0 &&
+      pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0)
       {
 	removeFromList();
 	phil->canRest = 1;
@@ -44,10 +42,8 @@ int		try_eat(t_phil *phil)
       }
     else
       {
-	if (ret1 == 0)
+	if (ret == 0)
 	  pthread_mutex_unlock(&g_mut_tab[id]);
-	if (ret2 == 0)
-	  pthread_mutex_unlock(&g_mut_tab[NEXT(id)]);
 	return (-1);
       }
 }
@@ -70,6 +66,8 @@ void		try_think(t_phil *cur_phil)
   int		id;
 
   id = cur_phil->id_phil;
+  if (PREV(cur_phil->id_phil) == g_waitingList[0])
+    return ;
   if (pthread_mutex_trylock(&g_mut_tab[id]) == 0)
     think(cur_phil, id);
   else if (pthread_mutex_trylock(&g_mut_tab[NEXT(id)]) == 0)
